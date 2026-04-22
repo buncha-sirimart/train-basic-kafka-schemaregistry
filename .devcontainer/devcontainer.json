@@ -1,0 +1,29 @@
+{
+  "name": "Kafka Workshop",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "workshop",
+  "workspaceFolder": "/workspace",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.fontSize": 14,
+        "editor.formatOnSave": true
+      }
+    }
+  },
+
+  "postStartCommand": "pip install -q confluent-kafka fastavro requests && echo '✅ Dependencies ready!'",
+  "forwardPorts": [9092, 8081],
+  "portsAttributes": {
+    "9092": { "label": "Kafka Broker" },
+    "8081": { "label": "Schema Registry" }
+  }
+}
