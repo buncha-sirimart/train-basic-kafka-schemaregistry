@@ -1,16 +1,14 @@
 """
 ╔══════════════════════════════════════════════╗
-║  Part 2 — Workshop: Register Avro Schema     ║
-║  เติมโค้ดในส่วนที่มี TODO ให้ครบ            ║
+║  Workshop Part 2 — Step 1: schema.py         ║
+║  กำหนด Avro Schema และ Register เข้า        ║
+║  Schema Registry                             ║
 ╚══════════════════════════════════════════════╝
 
-Avro Schema คือ "สัญญา" ที่บอกว่าข้อมูลใน Topic
-ต้องมีหน้าตาเป็นแบบนี้เท่านั้น
-
-ชนิดข้อมูลที่ใช้บ่อยใน Avro:
+ชนิดข้อมูลใน Avro:
   "string"  → ข้อความ
   "int"     → จำนวนเต็ม
-  "float"   → จำนวนทศนิยม
+  "float"   → ทศนิยม
   "boolean" → true / false
 """
 import os
@@ -23,10 +21,10 @@ SCHEMA_REGISTRY_URL = os.getenv('SCHEMA_REGISTRY_URL', 'http://schema-registry:8
 # ════════════════════════════════════════════════
 # TODO 1: เติม type ของแต่ละ field ให้ถูกต้อง
 #
-#   order_id  → จำนวนเต็ม (เช่น 1, 2, 3)
-#   item      → ข้อความ (เช่น "pizza")
-#   quantity  → จำนวนเต็ม (เช่น 2)
-#   price     → ทศนิยม (เช่น 250.0)
+#   order_id  → จำนวนเต็ม
+#   item      → ข้อความ
+#   quantity  → จำนวนเต็ม
+#   price     → ทศนิยม
 # ════════════════════════════════════════════════
 order_schema = {
     "type": "record",
@@ -44,12 +42,12 @@ order_schema = {
 # ════════════════════════════════════════════════
 # TODO 2: กำหนดชื่อ subject
 #         ปกติใช้ชื่อ topic ตามด้วย "-value"
-#         เช่น ถ้า topic ชื่อ 'orders-avro' → subject คือ 'orders-avro-value'
+#         เช่น topic 'orders-avro' → subject 'orders-avro-value'
 # ════════════════════════════════════════════════
 subject = ______  # 👈 เติมที่นี่
 
 
-# ─── Register Schema เข้า Schema Registry ────────────────────
+# ─── Register Schema ─────────────────────────────────────────
 print(f'📤 กำลัง Register Schema สำหรับ subject: {subject}')
 
 response = requests.post(
@@ -59,14 +57,11 @@ response = requests.post(
 )
 
 if response.status_code == 200:
-    schema_id = response.json()['id']
-    print(f'✅ Register สำเร็จ! Schema ID = {schema_id}')
+    print(f'✅ Register สำเร็จ! Schema ID = {response.json()["id"]}')
 else:
     print(f'❌ Register ล้มเหลว: {response.text}')
 
-
-# ─── ดู Schema ที่ Register ไว้ทั้งหมด ───────────────────────
-print('\n📋 Schema ที่มีใน Registry ทั้งหมด:')
-all_subjects = requests.get(f'{SCHEMA_REGISTRY_URL}/subjects').json()
-for s in all_subjects:
+# แสดง Schema ทั้งหมดที่มี
+print('\n📋 Schema ที่มีใน Registry:')
+for s in requests.get(f'{SCHEMA_REGISTRY_URL}/subjects').json():
     print(f'   • {s}')
