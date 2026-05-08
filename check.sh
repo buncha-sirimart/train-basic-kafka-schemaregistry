@@ -3,7 +3,7 @@
 # ║  check.sh — ตรวจสอบ environment ก่อนเริ่ม Workshop  ║
 # ╚══════════════════════════════════════════════════════╝
 
-set -euo pipefail
+set -uo pipefail
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -15,8 +15,8 @@ NC='\033[0m'
 PASS=0
 FAIL=0
 
-ok()   { echo -e "  ${GREEN}✅ $1${NC}"; ((PASS++)); }
-fail() { echo -e "  ${RED}❌ $1${NC}"; ((FAIL++)); }
+ok()   { echo -e "  ${GREEN}✅ $1${NC}"; PASS=$((PASS+1)); }
+fail() { echo -e "  ${RED}❌ $1${NC}"; FAIL=$((FAIL+1)); }
 warn() { echo -e "  ${YELLOW}⚠️  $1${NC}"; }
 info() { echo -e "  ${CYAN}ℹ️  $1${NC}"; }
 
