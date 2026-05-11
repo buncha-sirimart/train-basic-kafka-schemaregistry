@@ -1,14 +1,4 @@
 # 🚀 Kafka & Schema Registry Workshop
-
-## วิธีเริ่มต้น
-
-```bash
-# ตรวจสอบว่าระบบพร้อม
-bash check.sh
-```
-
----
-
 ## Workshop Part 1 — Basic Produce & Consume
 
 ```
