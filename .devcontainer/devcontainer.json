@@ -20,7 +20,7 @@
     }
   },
 
-  "postStartCommand": "pip install -q -r requirements.txt && echo '✅ Dependencies ready!'",
+  "postStartCommand": "pip install -q -r /workspace/train-basic-kafka-schemaregistry/requirements.txt && echo '✅ Dependencies ready!'",
   "forwardPorts": [9092, 8081],
   "portsAttributes": {
     "9092": { "label": "Kafka Broker" },
